@@ -12,11 +12,6 @@ fn calculate_expected_cost(
         accumulated_success_rate * 100.0,
         current_cost
     );
-    if accumulated_success_rate >= 1.0 {
-        println!("已達到100%成功率，不會再失敗");
-        println!("累計消耗: {:.2}", current_cost);
-        return current_cost;
-    }
 
     let failure_rate = 1.00 - accumulated_success_rate as f64;
     let current_stage_cost = single_shot_cost * current_loop as f64 * chance_to_this_stage;
@@ -25,7 +20,11 @@ fn calculate_expected_cost(
     let expected_cost = accumulated_success_rate * current_stage_cost; // 成功的期望值
     println!("成功的期望值: {:.2}", expected_cost);
     let current_cost = current_cost + expected_cost; // 累計消耗 + 本次消耗
-
+    if accumulated_success_rate >= 1.0 {
+        println!("已達到100%成功率，不會再失敗");
+        println!("累計消耗: {:.4}", current_cost);
+        return current_cost;
+    }
     // Recursively calculate the expected cost for the next upgrade
     let next_round_rate = accumulated_success_rate + failure_increase; // 進入下一輪機率
     calculate_expected_cost(

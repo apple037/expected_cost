@@ -1,0 +1,4 @@
+[condition]
+init_success_rate = 0.25 # 初始成功率
+success_increase = 0.08  # 每次成功率增加
+single_shot_cost = 10.0  # 每次嘗試費用
